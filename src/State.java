@@ -1,9 +1,10 @@
-public class State extends Location {
+public class State {
 
-//    private Information;
+    private Location userLocation;
+    private Information info;
 
-    public State(int r, int c, int con) {
-        super(r,c, con);
+    public State(Location userLocation ) {
+        this.userLocation = userLocation;
     }
 
 }
