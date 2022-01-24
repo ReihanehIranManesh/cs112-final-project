@@ -142,6 +142,11 @@ public class Maze extends JFrame {
             secondPanel.add(solveButton);
 
 
+            JButton hintButton = new JButton("Hint");
+            hintButton.addActionListener(new HintListener(mazeState, locationGrid[goalRow][goalCol], allButtons));
+            secondPanel.add(hintButton);
+
+
             JButton jb2 = new JButton("Take Back");
             secondPanel.add(jb2);
             this.getContentPane().add(secondPanel);
