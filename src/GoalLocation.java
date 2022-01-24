@@ -1,5 +1,5 @@
-public class GoalLocation extends Location{
-    public GoalLocation(int r, int c, int con) {
+public class GoalLocation<T> extends Location<T> {
+    public GoalLocation(int r, int c, T con) {
         super(r,c, con);
 
     }

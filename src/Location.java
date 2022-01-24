@@ -5,22 +5,16 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Scanner;
 
-public class Location {
+public class Location<T> {
     private int row;
     private int col;
-    private int content;
-    private List<Transition> transitions;
+    private T content;
 
-    protected Location(int row, int col, int content) {
+    protected Location(int row, int col, T content) {
         this.row = row;
         this.col = col;
         this.content = content;
-        this.transitions = new ArrayList<>();
 
-    }
-
-    public void setTransitions(List<Transition> transitions) {
-        this.transitions = transitions;
     }
 
     public int getRow() {
@@ -31,12 +25,8 @@ public class Location {
         return col;
     }
 
-    public int getContent() {
+    public T getContent() {
         return content;
-    }
-
-    public List<Transition> getTransitions() {
-        return transitions;
     }
 
     public boolean isGoal() {
@@ -53,56 +43,12 @@ public class Location {
                 "row=" + row +
                 ", col=" + col +
                 ", content=" + content +
-                ", transitions=" + transitions +
                 '}';
     }
 
 
-    public String toStringNoTransition() {
-        return "Location{" +
-                "row=" + row +
-                ", col=" + col +
-                ", content=" + content +
-                '}';
-    }
-
-    private static void populateTransitions(int mazeRow, int mazeCol, Location loc, Location[][] locationsGrid) {
-        List<Transition> transitions = new ArrayList<>();
-        int rowRight = loc.getRow();
-        int colRight = loc.getCol() + loc.getContent();
-        if (colRight < mazeCol) {
-            Transition rightTransition = new Transition(locationsGrid[rowRight][colRight]);
-            transitions.add(rightTransition);
-        }
-
-        int rowLeft = loc.getRow();
-        int colLeft = loc.getCol() - loc.getContent();
-        if (colLeft >= 0) {
-            Transition leftTransition = new Transition(locationsGrid[rowLeft][colLeft]);
-            transitions.add(leftTransition);
-
-        }
-
-
-        int rowUp = loc.getRow() - loc.getContent();
-        int colUp = loc.getCol();
-        if (rowUp >= 0) {
-            Transition upTransition = new Transition(locationsGrid[rowUp][colUp]);
-            transitions.add(upTransition);
-        }
-
-        int rowDown = loc.getRow() + loc.getContent();
-        int colDown = loc.getCol();
-        if (rowDown < mazeRow) {
-            Transition downTransition = new Transition(locationsGrid[rowDown][colDown]);
-            transitions.add(downTransition);
-
-        }
-        loc.setTransitions(transitions);
-    }
-
-    public static Location[][] createLocationGrid(int mazeRow, int mazeCol, List<Integer> contents, int startRow, int startCol, int goalRow, int goalCol) {
-        Location[][] locationsGrid = new Location[mazeRow][mazeCol];
+    public static <T> Location<T>[][] createLocationGrid(int mazeRow, int mazeCol, List<T> contents, int startRow, int startCol, int goalRow, int goalCol) {
+        Location<T>[][] locationsGrid = new Location[mazeRow][mazeCol];
         for (int i = 0; i < mazeRow; i++) {
             for (int j = 0; j < mazeCol; j++) {
                 if (i == startRow && j == startCol) {
@@ -117,12 +63,6 @@ public class Location {
             }
         }
 
-        for (int i = 0; i < mazeRow; i++) {
-            for (int j = 0; j < mazeCol; j++) {
-                Location loc = locationsGrid[i][j];
-                populateTransitions(mazeRow, mazeCol, loc, locationsGrid);
-            }
-        }
         return locationsGrid;
     }
 

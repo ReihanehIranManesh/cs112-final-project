@@ -22,7 +22,7 @@ public class Solver {
                 if (visitedStates.contains(curState)) {
                     continue;
                 }
-                List<Transition> transitions = curState.getUserLocation().getTransitions();
+                List<Transition> transitions = curState.getTransitions();
                 for (Transition transition : transitions) {
                     if (transition.canTransit(curState)) {
                         State newState = transition.transit(curState);

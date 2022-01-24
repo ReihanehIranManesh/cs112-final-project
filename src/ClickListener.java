@@ -27,7 +27,7 @@ class ClickListener implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 
-		List<Transition> transitions = an.getMazeState().getUserLocation().getTransitions();
+		List<Transition> transitions = an.getMazeState().getTransitions();
 
 		for (Transition transition : transitions) {
 

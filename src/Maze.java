@@ -7,13 +7,53 @@ import java.util.Scanner;
 
 import javax.swing.*;
 
-public class Maze extends JFrame {
+public abstract class Maze<T> extends JFrame {
 
-
+    private final Location<T>[][] locationGrid;
     private State mazeState;
 
     Container contentPane;
+    private int mazeRow;
+    private int mazeCol;
+    private int startRow;
+    private int startCol;
+    private int goalRow;
+    private int goalCol;
 
+    public Maze() throws HeadlessException {
+
+        File f = new File("board.dat");
+        Scanner sc = null;
+        try {
+            sc = new Scanner(f);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        String[] s = sc.nextLine().split(" ");
+        this.mazeRow = Integer.parseInt(s[0]);
+        this.mazeCol = Integer.parseInt(s[1]);
+        String[] start = sc.nextLine().split(" ");
+        String[] goal = sc.nextLine().split(" ");
+        this.startRow = Integer.parseInt(start[0]);
+        this.startCol = Integer.parseInt(start[1]);
+        this.goalRow = Integer.parseInt(goal[0]);
+        this.goalCol = Integer.parseInt(goal[1]);
+
+
+        List<T> contents = populateContents(sc);
+
+
+        sc.close();
+
+        this.locationGrid = Location.createLocationGrid(mazeRow, mazeCol, contents, startRow, startCol, goalRow, goalCol);
+
+        this.mazeState = new State(locationGrid[startRow][startCol]);
+
+    }
+
+    public abstract List<T> populateContents(Scanner sc);
+
+    abstract public String getContentText(T content);
 
     public State getMazeState() {
         return mazeState;
@@ -54,109 +94,82 @@ public class Maze extends JFrame {
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        try {
-            File f = new File("board.dat");
-            Scanner sc = new Scanner(f);
-            String[] s = sc.nextLine().split(" ");
-            int mazeRow = Integer.parseInt(s[0]);
-            int mazeCol = Integer.parseInt(s[1]);
-            String[] start = sc.nextLine().split(" ");
-            String[] goal = sc.nextLine().split(" ");
-            int startRow = Integer.parseInt(start[0]);
-            int startCol = Integer.parseInt(start[1]);
-            int goalRow = Integer.parseInt(goal[0]);
-            int goalCol = Integer.parseInt(goal[1]);
 
-            List<Integer> contents = new LinkedList<>();
+        contentPane.setLayout(new GridLayout(mazeRow + 1, mazeCol));
 
-            JButton[][] allButtons = new JButton[mazeRow][mazeCol];
+        this.setSize(new Dimension(1500, 1500));
+        this.setLocationRelativeTo(null);
 
-            while (sc.hasNextInt()) {
-                contents.add(sc.nextInt());
-            }
-            sc.close();
+        int count = 0;
 
-            Location[][] locationGrid = Location.createLocationGrid(mazeRow, mazeCol, contents, startRow, startCol, goalRow, goalCol);
 
-            this.mazeState = new State(locationGrid[startRow][startCol]);
+        JButton[][] allButtons = new JButton[mazeRow][mazeCol];
 
-            contentPane.setLayout(new GridLayout(mazeRow + 1, mazeCol));
 
-            this.setSize(new Dimension(1500, 1500));
-            this.setLocationRelativeTo(null);
+        for (int i = 0; i < mazeRow; i++) {
+            for (int j = 0; j < mazeCol; j++) {
 
-            int count = 0;
+                count++;
 
-            for (int i = 0; i < mazeRow; i++) {
-                for (int j = 0; j < mazeCol; j++) {
+                T content = locationGrid[i][j].getContent();
+                JButton jb1 = new JButton(getContentText(content));
+                jb1.setOpaque(true);
+                jb1.setFont(new Font("Arial", Font.BOLD, 60));
+                jb1.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+                jb1.addActionListener(new ClickListener(this, locationGrid[i][j], jb1));
 
-                    count++;
-
-                    int content = locationGrid[i][j].getContent();
-                    JButton jb1 = new JButton("" + content);
-                    jb1.setOpaque(true);
-                    jb1.setFont(new Font("Arial", Font.BOLD, 60));
-                    jb1.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
-                    jb1.addActionListener(new ClickListener(this, locationGrid[i][j], jb1));
-
-                    if (i == startRow && j == startCol) {
-                        jb1.setBackground(Color.RED);
-                        jb1.setForeground(Color.YELLOW);
-                        contentPane.add(jb1);
-                        allButtons[i][j] = jb1;
-                        ClickListener.previousJb = jb1;
-                        continue;
-                    }
-
-                    if (i == goalRow && j == goalCol) {
-                        jb1.setText("GOAL");
-                        jb1.setBackground(Color.RED);
-
-                        jb1.setFont(new Font("Arial", Font.BOLD, 50));
-                        jb1.setForeground(Color.BLACK);
-                        jb1.setBorder(BorderFactory.createLineBorder(Color.BLACK, 4));
-                        contentPane.add(jb1);
-                        allButtons[i][j] = jb1;
-                        continue;
-
-                    }
-                    if (count % 2 == 1)
-                        jb1.setBackground(new Color(154, 205, 50));
-                    else
-                        jb1.setBackground(new Color(0, 128, 128));
-
-                    jb1.setForeground(Color.BLACK);
-
+                if (i == startRow && j == startCol) {
+                    jb1.setBackground(Color.RED);
+                    jb1.setForeground(Color.YELLOW);
                     contentPane.add(jb1);
                     allButtons[i][j] = jb1;
+                    ClickListener.previousJb = jb1;
+                    continue;
+                }
+
+                if (i == goalRow && j == goalCol) {
+                    jb1.setText("GOAL");
+                    jb1.setBackground(Color.RED);
+
+                    jb1.setFont(new Font("Arial", Font.BOLD, 50));
+                    jb1.setForeground(Color.BLACK);
+                    jb1.setBorder(BorderFactory.createLineBorder(Color.BLACK, 4));
+                    contentPane.add(jb1);
+                    allButtons[i][j] = jb1;
+                    continue;
 
                 }
+                if (count % 2 == 1)
+                    jb1.setBackground(new Color(154, 205, 50));
+                else
+                    jb1.setBackground(new Color(0, 128, 128));
+
+                jb1.setForeground(Color.BLACK);
+
+                contentPane.add(jb1);
+                allButtons[i][j] = jb1;
 
             }
 
-
-            JPanel secondPanel = new JPanel(new FlowLayout());
-
-            JButton solveButton = new JButton("Solve");
-            solveButton.addActionListener(new SolutionListener(mazeState, locationGrid[goalRow][goalCol], allButtons));
-            secondPanel.add(solveButton);
-
-
-            JButton hintButton = new JButton("Hint");
-            hintButton.addActionListener(new HintListener(mazeState, locationGrid[goalRow][goalCol], allButtons));
-            secondPanel.add(hintButton);
-
-
-            JButton jb2 = new JButton("Take Back");
-            secondPanel.add(jb2);
-            this.getContentPane().add(secondPanel);
-            jb2.addActionListener(new NewLook(this));
-
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         }
 
+
+        JPanel secondPanel = new JPanel(new FlowLayout());
+
+        JButton solveButton = new JButton("Solve");
+        solveButton.addActionListener(new SolutionListener(mazeState, locationGrid[goalRow][goalCol], allButtons));
+        secondPanel.add(solveButton);
+
+
+        JButton hintButton = new JButton("Hint");
+        hintButton.addActionListener(new HintListener(mazeState, locationGrid[goalRow][goalCol], allButtons));
+        secondPanel.add(hintButton);
+
+
+        JButton jb2 = new JButton("Take Back");
+        secondPanel.add(jb2);
+        this.getContentPane().add(secondPanel);
+        jb2.addActionListener(new NewLook(this));
 
 
 //		JButton changer = new JButton("Add Button");
@@ -168,7 +181,8 @@ public class Maze extends JFrame {
 
     public static void main(String[] args) {
 
-        Maze thisOne = new Maze();
+        Maze<Integer> thisOne = new MazeOne();
+
         thisOne.init();
 
         thisOne.pack();
