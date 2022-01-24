@@ -1,46 +1,46 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class MazeOneState extends State{
+public class MazeOneState extends State<Integer> {
 
 
-    public MazeOneState(Location userLocation) {
+    public MazeOneState(Location<Integer> userLocation) {
         super(userLocation);
+
     }
 
-    private List<Transition> getTransitions(int mazeRow, int mazeCol, Location[][] locationsGrid) {
-        List<Transition> transitions = new ArrayList<>();
-        int rowRight = loc.getRow();
-        int colRight = loc.getCol() + loc.getContent();
+    public List<Transition<Integer>> getTransitions(int mazeRow, int mazeCol, Location<Integer>[][] locationsGrid) {
+        List<Transition<Integer>> transitions = new ArrayList<>();
+        int rowRight = this.userLocation.getRow();
+        int colRight = this.userLocation.getCol() + this.userLocation.getContent();
         if (colRight < mazeCol) {
-            Transition rightTransition = new Transition(locationsGrid[rowRight][colRight]);
+            MazeOneTransition rightTransition = new MazeOneTransition(locationsGrid[rowRight][colRight]);
             transitions.add(rightTransition);
         }
 
-        int rowLeft = loc.getRow();
-        int colLeft = loc.getCol() - loc.getContent();
+        int rowLeft = this.userLocation.getRow();
+        int colLeft = this.userLocation.getCol() - this.userLocation.getContent();
         if (colLeft >= 0) {
-            Transition leftTransition = new Transition(locationsGrid[rowLeft][colLeft]);
+            MazeOneTransition leftTransition = new MazeOneTransition(locationsGrid[rowLeft][colLeft]);
             transitions.add(leftTransition);
 
         }
 
 
-        int rowUp = loc.getRow() - loc.getContent();
-        int colUp = loc.getCol();
+        int rowUp = this.userLocation.getRow() - this.userLocation.getContent();
+        int colUp = this.userLocation.getCol();
         if (rowUp >= 0) {
-            Transition upTransition = new Transition(locationsGrid[rowUp][colUp]);
+            MazeOneTransition upTransition = new MazeOneTransition(locationsGrid[rowUp][colUp]);
             transitions.add(upTransition);
         }
 
-        int rowDown = loc.getRow() + loc.getContent();
-        int colDown = loc.getCol();
+        int rowDown = this.userLocation.getRow() + this.userLocation.getContent();
+        int colDown = this.userLocation.getCol();
         if (rowDown < mazeRow) {
-            Transition downTransition = new Transition(locationsGrid[rowDown][colDown]);
+            MazeOneTransition downTransition = new MazeOneTransition(locationsGrid[rowDown][colDown]);
             transitions.add(downTransition);
 
         }
-        loc.setTransitions(transitions);
 
         return transitions;
     }

@@ -1,35 +1,36 @@
 import java.util.*;
 
-public class Solver {
+public class Solver<T> {
 
-    Location goalLocation;
+    Location<T> goalLocation;
 
-    public Solver(Location goalLocation) {
+
+    public Solver(Location<T> goalLocation) {
         this.goalLocation = goalLocation;
     }
-    public Stack<State> solve(State startState) {
+    public Stack<State<T>> solve(State<T> startState, Maze<T> maze) {
 
-        Stack<State> solution = new Stack<>();
+        Stack<State<T>> solution = new Stack<>();
 
-        List<State> states = new ArrayList<>();
-        Set<State> visitedStates = new HashSet<>();
+        List<State<T>> states = new ArrayList<>();
+        Set<State<T>> visitedStates = new HashSet<>();
         states.add(startState);
         int index = 0;
         while (states.size() > 0) {
 
-            List<State> newStates = new ArrayList<>();
-            for (State curState : states) {
+            List<State<T>> newStates = new ArrayList<>();
+            for (State<T> curState : states) {
                 if (visitedStates.contains(curState)) {
                     continue;
                 }
-                List<Transition> transitions = curState.getTransitions();
-                for (Transition transition : transitions) {
+                List<Transition<T>> transitions = curState.getTransitions(maze.getMazeRow(), maze.getMazeCol(), maze.getLocationGrid());
+                for (Transition<T> transition : transitions) {
                     if (transition.canTransit(curState)) {
-                        State newState = transition.transit(curState);
+                        State<T> newState = transition.transit(curState);
                         newState.setPreviousState(curState);
                         if (newState.getUserLocation().isGoal()) {
                             System.out.println("Solution found");
-                            State cur = newState;
+                            State<T> cur = newState;
                             solution.add(cur);
                             while (cur.getPreviousState() != null) {
                                 cur = cur.getPreviousState();

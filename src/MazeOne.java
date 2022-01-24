@@ -9,6 +9,11 @@ import java.util.Scanner;
 public class MazeOne extends Maze<Integer> {
 
 
+    public MazeOne() throws HeadlessException {
+
+        this.mazeState = new MazeOneState(locationGrid[startRow][startCol]);
+    }
+
     @Override
     public List<Integer> populateContents(Scanner sc) {
 

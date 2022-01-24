@@ -1,13 +1,13 @@
-public class Transition {
+public abstract class Transition<T> {
 
 
-    private Location target;
+    protected Location<T> target;
 
-    public Transition(Location target) {
+    public Transition(Location<T> target) {
         this.target = target;
     }
 
-    public Location getTarget() {
+    public Location<T> getTarget() {
         return target;
     }
 
@@ -16,7 +16,7 @@ public class Transition {
 //        return "" + this.getRow() + "," + this.getCol() + " " + this.getContent();
 //    }
 
-    public boolean canTransit(State curr) {
+    public boolean canTransit(State<T> curr) {
 
 //        if (getCol() < Maze.getMazeCol() && getRow() < Maze.getMazeRow() && getCol() >= 0 && getRow() >= 0) {
 //
@@ -39,15 +39,12 @@ public class Transition {
         return true;
     }
 
-    public State transit (State curr)
-    {
-        return new State(this.target);
-    }
+    public abstract State<T> transit (State<T> curr);
 
     @Override
     public String toString() {
         return "Transition{" +
-                "target=" + target.toStringNoTransition() +
+                "target=" + target.toString() +
                 '}';
     }
 }

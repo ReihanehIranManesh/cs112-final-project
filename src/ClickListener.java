@@ -5,14 +5,14 @@ import java.util.List;
 import javax.swing.*;
 
 
-class ClickListener implements ActionListener {
+class ClickListener<T> implements ActionListener {
 
-	Maze an;
-	Location buttonLocation;
+	Maze<T> an;
+	Location<T> buttonLocation;
 	JButton jb;
 	static JButton previousJb;
 
-	public ClickListener(Maze an, Location buttonLocation, JButton jb) {
+	public ClickListener(Maze<T> an, Location<T> buttonLocation, JButton jb) {
 		this.an = an;
 		this.buttonLocation = buttonLocation;
 		this.jb = jb;
@@ -27,7 +27,7 @@ class ClickListener implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 
-		List<Transition> transitions = an.getMazeState().getTransitions();
+		List<Transition> transitions = an.getMazeState().getTransitions(this.an.getMazeRow(), this.an.getMazeCol(), this.an.getLocationGrid());
 
 		for (Transition transition : transitions) {
 
@@ -37,7 +37,7 @@ class ClickListener implements ActionListener {
 				continue;
 			}
 
-			State newState = transition.transit(an.getMazeState());
+			State<T> newState = transition.transit(an.getMazeState());
 
 			if (newState.getUserLocation() == buttonLocation) {
 				if (transition.getTarget().isGoal()) {

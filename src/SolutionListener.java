@@ -7,17 +7,19 @@ import java.util.Stack;
 import java.util.concurrent.ExecutionException;
 
 
-class SolutionListener implements ActionListener {
+class SolutionListener<T> implements ActionListener {
 
 
-    private State startState;
-    private Location goalLocation;
-    private JButton[][] allButtons;
+	Maze<T> an;
+    private final State<T> startState;
+    private final Location<T> goalLocation;
+    private final JButton[][] allButtons;
 
-    public SolutionListener(State startState, Location goalLocation, JButton[][] allButtons) {
+    public SolutionListener(State<T> startState, Location<T> goalLocation, JButton[][] allButtons, Maze<T> an) {
         this.startState = startState;
         this.goalLocation = goalLocation;
         this.allButtons = allButtons;
+		this.an = an;
     }
 
 
@@ -26,8 +28,8 @@ class SolutionListener implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        Solver solver = new Solver(this.goalLocation);
-        Stack<State> solution = solver.solve(this.startState);
+        Solver<T> solver = new Solver<T>(this.goalLocation);
+        Stack<State<T>> solution = solver.solve(this.startState, an);
 
 		SwingWorker sw1 = new SwingWorker()
 		{
@@ -38,7 +40,7 @@ class SolutionListener implements ActionListener {
 
 				while (!solution.isEmpty()) {
 
-					State temp = solution.pop();
+					State<T> temp = solution.pop();
 					int row = temp.getUserLocation().getRow();
 					int col = temp.getUserLocation().getCol();
 					allButtons[row][col].setBackground(Color.PINK);

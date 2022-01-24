@@ -5,17 +5,19 @@ import java.awt.event.ActionListener;
 import java.util.Stack;
 
 
-class HintListener implements ActionListener {
+class HintListener<T> implements ActionListener {
 
 
-    private State startState;
-    private Location goalLocation;
-    private JButton[][] allButtons;
+    Maze<T> an;
+    private final State<T> startState;
+    private final Location<T> goalLocation;
+    private final JButton[][] allButtons;
 
-    public HintListener(State startState, Location goalLocation, JButton[][] allButtons) {
+    public HintListener(State<T> startState, Location<T> goalLocation, JButton[][] allButtons, Maze<T> an) {
         this.startState = startState;
         this.goalLocation = goalLocation;
         this.allButtons = allButtons;
+        this.an = an;
     }
 
 
@@ -24,8 +26,8 @@ class HintListener implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        Solver solver = new Solver(this.goalLocation);
-        Stack<State> solution = solver.solve(this.startState);
+        Solver<T> solver = new Solver<T>(this.goalLocation);
+        Stack<State<T>> solution = solver.solve(this.startState, an);
 
         int row;
         int col;
@@ -33,7 +35,7 @@ class HintListener implements ActionListener {
         solution.pop();
         if (!solution.isEmpty()) {
 
-            State temp = solution.pop();
+            State<T> temp = solution.pop();
             row = temp.getUserLocation().getRow();
             col = temp.getUserLocation().getCol();
             prevColor = allButtons[row][col].getBackground();

@@ -9,16 +9,29 @@ import javax.swing.*;
 
 public abstract class Maze<T> extends JFrame {
 
-    private final Location<T>[][] locationGrid;
-    private State mazeState;
+    public Location<T>[][] getLocationGrid() {
+        return locationGrid;
+    }
+
+    protected final Location<T>[][] locationGrid;
+    protected State mazeState;
 
     Container contentPane;
-    private int mazeRow;
-    private int mazeCol;
-    private int startRow;
-    private int startCol;
-    private int goalRow;
-    private int goalCol;
+
+    public int getMazeRow() {
+        return mazeRow;
+    }
+
+    public int getMazeCol() {
+        return mazeCol;
+    }
+
+    protected int mazeRow;
+    protected int mazeCol;
+    protected int startRow;
+    protected int startCol;
+    protected int goalRow;
+    protected int goalCol;
 
     public Maze() throws HeadlessException {
 
@@ -47,7 +60,6 @@ public abstract class Maze<T> extends JFrame {
 
         this.locationGrid = Location.createLocationGrid(mazeRow, mazeCol, contents, startRow, startCol, goalRow, goalCol);
 
-        this.mazeState = new State(locationGrid[startRow][startCol]);
 
     }
 
@@ -148,21 +160,18 @@ public abstract class Maze<T> extends JFrame {
 
                 contentPane.add(jb1);
                 allButtons[i][j] = jb1;
-
             }
-
         }
-
 
         JPanel secondPanel = new JPanel(new FlowLayout());
 
         JButton solveButton = new JButton("Solve");
-        solveButton.addActionListener(new SolutionListener(mazeState, locationGrid[goalRow][goalCol], allButtons));
+        solveButton.addActionListener(new SolutionListener<T>(mazeState, locationGrid[goalRow][goalCol], allButtons, this));
         secondPanel.add(solveButton);
 
 
         JButton hintButton = new JButton("Hint");
-        hintButton.addActionListener(new HintListener(mazeState, locationGrid[goalRow][goalCol], allButtons));
+        hintButton.addActionListener(new HintListener<T>(mazeState, locationGrid[goalRow][goalCol], allButtons, this));
         secondPanel.add(hintButton);
 
 
