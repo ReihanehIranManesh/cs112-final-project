@@ -1,7 +1,6 @@
 import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -13,7 +12,7 @@ public abstract class Maze<T> extends JFrame {
         return locationGrid;
     }
 
-    protected final Location<T>[][] locationGrid;
+    protected Location<T>[][] locationGrid;
     protected State mazeState;
 
     Container contentPane;
@@ -32,9 +31,12 @@ public abstract class Maze<T> extends JFrame {
     protected int startCol;
     protected int goalRow;
     protected int goalCol;
+    protected List<T> contents;
 
     public Maze() throws HeadlessException {
 
+    }
+    public void initMaze() {
         File f = new File("board.dat");
         Scanner sc = null;
         try {
@@ -52,9 +54,7 @@ public abstract class Maze<T> extends JFrame {
         this.goalRow = Integer.parseInt(goal[0]);
         this.goalCol = Integer.parseInt(goal[1]);
 
-
-        List<T> contents = populateContents(sc);
-
+        this.contents = populateContents(sc);
 
         sc.close();
 
@@ -85,22 +85,25 @@ public abstract class Maze<T> extends JFrame {
 
         contentPane.add(new SwitchPanel());
 
-        JButton jb = new JButton("Switch");
-
-        contentPane.add(jb);
-        jb.addActionListener(new SwitchLook(this));
-
         JButton jb1 = new JButton("One");
 
-
         contentPane.add(jb1);
-        contentPane.add(new JButton("Two"));
-        contentPane.add(new JButton("Three"));
+        jb1.addActionListener(new SwitchMazeOne(this));
 
+        JButton jb2 = new JButton("Two");
+        contentPane.add(jb2);
+
+        JButton jb3 = new JButton("Three");
+
+        contentPane.add(jb3);
 
     }
 
     public void init2() {
+
+
+
+        this.initMaze();
 
         Container contentPane = this.getContentPane();
 
@@ -166,12 +169,12 @@ public abstract class Maze<T> extends JFrame {
         JPanel secondPanel = new JPanel(new FlowLayout());
 
         JButton solveButton = new JButton("Solve");
-        solveButton.addActionListener(new SolutionListener<T>(mazeState, locationGrid[goalRow][goalCol], allButtons, this));
+        solveButton.addActionListener(new SolutionListener<T>(this.mazeState, locationGrid[goalRow][goalCol], allButtons, this));
         secondPanel.add(solveButton);
 
 
         JButton hintButton = new JButton("Hint");
-        hintButton.addActionListener(new HintListener<T>(mazeState, locationGrid[goalRow][goalCol], allButtons, this));
+        hintButton.addActionListener(new HintListener<T>(this.mazeState, locationGrid[goalRow][goalCol], allButtons, this));
         secondPanel.add(hintButton);
 
 

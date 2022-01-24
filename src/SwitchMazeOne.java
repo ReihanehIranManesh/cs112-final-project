@@ -1,9 +1,9 @@
 import java.awt.event.ActionListener;
 
 
-class SwitchMaze2 extends NewLook implements ActionListener {
+class SwitchMazeOne extends NewLook implements ActionListener {
 
-	public SwitchMaze2(Maze an) {
+	public SwitchMazeOne(Maze an) {
 		super(an);
 	}
 

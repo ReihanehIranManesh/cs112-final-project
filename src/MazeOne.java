@@ -10,8 +10,7 @@ public class MazeOne extends Maze<Integer> {
 
 
     public MazeOne() throws HeadlessException {
-
-        this.mazeState = new MazeOneState(locationGrid[startRow][startCol]);
+        super();
     }
 
     @Override
@@ -30,6 +29,9 @@ public class MazeOne extends Maze<Integer> {
         return "" + content;
     }
 
-
-
+    @Override
+    public void initMaze() {
+        super.initMaze();
+        this.mazeState = new MazeOneState(locationGrid[startRow][startCol]);
+    }
 }
