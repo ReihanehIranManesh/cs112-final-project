@@ -3,7 +3,7 @@ import java.awt.event.ActionListener;
 
 class SwitchLook extends NewLook implements ActionListener {
 
-	public SwitchLook(SwitchingExample an) {
+	public SwitchLook(Maze an) {
 		super(an);
 	}
 

@@ -1,8 +1,16 @@
 public class Transition {
+
+
     private Location target;
+
     public Transition(Location target) {
         this.target = target;
     }
+
+    public Location getTarget() {
+        return target;
+    }
+
 //
 //    public String toString() {
 //        return "" + this.getRow() + "," + this.getCol() + " " + this.getContent();

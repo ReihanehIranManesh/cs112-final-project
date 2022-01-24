@@ -3,7 +3,6 @@ public class GoalLocation extends Location{
         super(r,c, con);
 
     }
-
     @Override
     public boolean isGoal() {
         return true;

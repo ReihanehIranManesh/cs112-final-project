@@ -6,7 +6,7 @@ import javax.swing.JButton;
 
 class SwitchListener extends NewLook implements ActionListener {
 
-	public SwitchListener(SwitchingExample an) {
+	public SwitchListener(Maze an) {
 		super(an);
 	}
 

@@ -64,6 +64,7 @@ public class Location {
                 ", content=" + content +
                 '}';
     }
+
     private static void populateTransitions(int mazeRow, int mazeCol, Location loc, Location[][] locationsGrid) {
         List<Transition> transitions = new ArrayList<>();
         int rowRight = loc.getRow();
@@ -99,46 +100,28 @@ public class Location {
         loc.setTransitions(transitions);
     }
 
-    public static Location[][] createLocationGrid(String fileName) {
-        try {
-            File f = new File(fileName);
-            Scanner sc = new Scanner(f);
-            String[] s = sc.nextLine().split(" ");
-            int mazeRow = Integer.parseInt(s[0]);
-            int mazeCol = Integer.parseInt(s[1]);
-            String[] start = sc.nextLine().split(" ");
-            String[] goal = sc.nextLine().split(" ");
-            int startRow = Integer.parseInt(start[0]);
-            int startCol = Integer.parseInt(start[1]);
-            int goalRow = Integer.parseInt(goal[0]);
-            int goalCol = Integer.parseInt(goal[1]);
-
-            Location[][] locationsGrid = new Location[mazeRow][mazeCol];
-            for (int i = 0; i < mazeRow; i++) {
-                for (int j = 0; j < mazeCol; j++) {
-                    if (i == startRow && j == startCol) {
-                        locationsGrid[i][j] = new StartLocation(i, j, sc.nextInt());
-                        continue;
-                    }
-                    if (i == goalRow && j == goalCol) {
-                        locationsGrid[i][j] = new GoalLocation(i, j, sc.nextInt());
-                        continue;
-                    }
-                    locationsGrid[i][j] = new Location(i, j, sc.nextInt());
+    public static Location[][] createLocationGrid(int mazeRow, int mazeCol, List<Integer> contents, int startRow, int startCol, int goalRow, int goalCol) {
+        Location[][] locationsGrid = new Location[mazeRow][mazeCol];
+        for (int i = 0; i < mazeRow; i++) {
+            for (int j = 0; j < mazeCol; j++) {
+                if (i == startRow && j == startCol) {
+                    locationsGrid[i][j] = new StartLocation(i, j, contents.remove(0));
+                    continue;
                 }
-            }
-
-            for (int i = 0; i < mazeRow; i++) {
-                for (int j = 0; j < mazeCol; j++) {
-                    Location loc = locationsGrid[i][j];
-                    populateTransitions(mazeRow, mazeCol, loc, locationsGrid);
-                    System.out.println(locationsGrid[i][j]);
+                if (i == goalRow && j == goalCol) {
+                    locationsGrid[i][j] = new GoalLocation(i, j, contents.remove(0));
+                    continue;
                 }
+                locationsGrid[i][j] = new Location(i, j, contents.remove(0));
             }
-            return locationsGrid;
-
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
         }
+
+        for (int i = 0; i < mazeRow; i++) {
+            for (int j = 0; j < mazeCol; j++) {
+                Location loc = locationsGrid[i][j];
+                populateTransitions(mazeRow, mazeCol, loc, locationsGrid);
+            }
+        }
+        return locationsGrid;
     }
 }

@@ -4,9 +4,9 @@ import java.awt.event.ActionListener;
 
 class NewLook implements ActionListener {
 
-	SwitchingExample an;
+	Maze an;
 
-	public NewLook(SwitchingExample an) {
+	public NewLook(Maze an) {
 		this.an = an;
 	}
 
