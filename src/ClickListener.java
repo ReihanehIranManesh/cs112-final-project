@@ -33,7 +33,13 @@ class ClickListener implements ActionListener {
 
 			// Important Note: Doing identity check because there are no duplicate locations anywhere
 
-			if (transition.getTarget() == buttonLocation) {
+			if (!transition.canTransit(an.getMazeState())) {
+				continue;
+			}
+
+			State newState = transition.transit(an.getMazeState());
+
+			if (newState.getUserLocation() == buttonLocation) {
 				if (transition.getTarget().isGoal()) {
 					an.getContentPane().removeAll();
 					specialDo();
@@ -55,6 +61,6 @@ class ClickListener implements ActionListener {
 				return;
 			}
 		}
-		System.out.println("False");
+		JOptionPane.showMessageDialog(this.an, "Choose a different location", "InfoBox: ", JOptionPane.INFORMATION_MESSAGE);
 	}
 }

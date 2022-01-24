@@ -2,6 +2,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class Location {
@@ -123,5 +124,18 @@ public class Location {
             }
         }
         return locationsGrid;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Location location = (Location) o;
+        return row == location.row && col == location.col && content == location.content;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(row, col, content);
     }
 }

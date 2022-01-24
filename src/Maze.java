@@ -50,7 +50,6 @@ public class Maze extends JFrame {
 
     public void init2() {
 
-
         Container contentPane = this.getContentPane();
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -70,6 +69,8 @@ public class Maze extends JFrame {
 
             List<Integer> contents = new LinkedList<>();
 
+            JButton[][] allButtons = new JButton[mazeRow][mazeCol];
+
             while (sc.hasNextInt()) {
                 contents.add(sc.nextInt());
             }
@@ -83,7 +84,6 @@ public class Maze extends JFrame {
 
             this.setSize(new Dimension(1500, 1500));
             this.setLocationRelativeTo(null);
-
 
             int count = 0;
 
@@ -103,6 +103,7 @@ public class Maze extends JFrame {
                         jb1.setBackground(Color.RED);
                         jb1.setForeground(Color.YELLOW);
                         contentPane.add(jb1);
+                        allButtons[i][j] = jb1;
                         ClickListener.previousJb = jb1;
                         continue;
                     }
@@ -115,6 +116,7 @@ public class Maze extends JFrame {
                         jb1.setForeground(Color.BLACK);
                         jb1.setBorder(BorderFactory.createLineBorder(Color.BLACK, 4));
                         contentPane.add(jb1);
+                        allButtons[i][j] = jb1;
                         continue;
 
                     }
@@ -126,12 +128,19 @@ public class Maze extends JFrame {
                     jb1.setForeground(Color.BLACK);
 
                     contentPane.add(jb1);
+                    allButtons[i][j] = jb1;
+
                 }
 
             }
 
 
             JPanel secondPanel = new JPanel(new FlowLayout());
+
+            JButton solveButton = new JButton("Solve");
+            solveButton.addActionListener(new SolutionListener(mazeState, locationGrid[goalRow][goalCol], allButtons));
+            secondPanel.add(solveButton);
+
 
             JButton jb2 = new JButton("Take Back");
             secondPanel.add(jb2);

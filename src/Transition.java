@@ -38,6 +38,7 @@ public class Transition {
 
         return true;
     }
+
     public State transit (State curr)
     {
         return new State(this.target);
