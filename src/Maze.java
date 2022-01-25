@@ -36,8 +36,8 @@ public abstract class Maze<T> extends JFrame {
     public Maze() throws HeadlessException {
 
     }
-    public void initMaze() {
-        File f = new File("board.dat");
+    public void initMaze(String filename) {
+        File f = new File(filename);
         Scanner sc = null;
         try {
             sc = new Scanner(f);
@@ -59,7 +59,6 @@ public abstract class Maze<T> extends JFrame {
         sc.close();
 
         this.locationGrid = Location.createLocationGrid(mazeRow, mazeCol, contents, startRow, startCol, goalRow, goalCol);
-
 
     }
 
@@ -101,9 +100,7 @@ public abstract class Maze<T> extends JFrame {
 
     public void init2() {
 
-
-
-        this.initMaze();
+        this.initMaze("alice.dat");
 
         Container contentPane = this.getContentPane();
 
@@ -112,7 +109,7 @@ public abstract class Maze<T> extends JFrame {
 
         contentPane.setLayout(new GridLayout(mazeRow + 1, mazeCol));
 
-        this.setSize(new Dimension(1500, 1500));
+        this.setSize(new Dimension(1700, 1700));
         this.setLocationRelativeTo(null);
 
         int count = 0;
@@ -193,7 +190,8 @@ public abstract class Maze<T> extends JFrame {
 
     public static void main(String[] args) {
 
-        Maze<Integer> thisOne = new MazeOne();
+        Maze<MazeTwoContent> thisOne = new MazeTwo();
+
 
         thisOne.init();
 

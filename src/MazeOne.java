@@ -30,8 +30,9 @@ public class MazeOne extends Maze<Integer> {
     }
 
     @Override
-    public void initMaze() {
-        super.initMaze();
+    public void initMaze(String filename) {
+        super.initMaze(filename);
         this.mazeState = new MazeOneState(locationGrid[startRow][startCol]);
+
     }
 }

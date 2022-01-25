@@ -1,7 +1,7 @@
-public class Information {
-//    private int distance;
-//
-//    public Information() {
-//
-//    }
+public class Information<T> {
+    private int distance;
+
+    public Information() {
+
+    }
 }
