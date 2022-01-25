@@ -13,6 +13,7 @@ public class MazeTwoTransition extends Transition<MazeTwoContent, Integer> {
         return true;
     }
 
+
     @Override
     public State<MazeTwoContent, Integer> transit(State<MazeTwoContent, Integer> curr) {
         System.out.println("Target location" + target);

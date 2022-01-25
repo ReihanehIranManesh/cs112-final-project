@@ -52,4 +52,13 @@ public class MazeTwoState extends State<MazeTwoContent, Integer> {
 
         return transitions;
     }
+
+    @Override
+    public boolean isGameOver() {
+
+        if (this.getUserLocation().getContent().getVelocity() + this.info <= 0) {
+            return true;
+        }
+        return false;
+    }
 }

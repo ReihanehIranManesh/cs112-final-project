@@ -40,6 +40,8 @@ public abstract class State<T, U> {
         return previousState;
     }
 
+    public abstract boolean isGameOver();
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

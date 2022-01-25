@@ -44,4 +44,9 @@ public class MazeOneState extends State<Integer, Void> {
 
         return transitions;
     }
+
+    @Override
+    public boolean isGameOver() {
+        return false;
+    }
 }

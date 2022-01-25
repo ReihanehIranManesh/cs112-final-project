@@ -29,7 +29,7 @@ class SolutionListener<T, U> implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         Solver<T, U> solver = new Solver<T, U>(this.goalLocation);
-        Stack<State<T, U>> solution = solver.solve(this.startState, an);
+        Stack<State<T, U>> solution = solver.solve(this.an.getMazeState(), an);
 
 		SwingWorker sw1 = new SwingWorker()
 		{

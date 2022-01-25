@@ -7,15 +7,18 @@ import javax.swing.*;
 
 class ClickListener<T, U> implements ActionListener {
 
+	static boolean gameOver = false;
+	static JButton previousJb;
 	Maze<T, U> an;
 	Location<T> buttonLocation;
 	JButton jb;
-	static JButton previousJb;
+
 
 	public ClickListener(Maze<T, U> an, Location<T> buttonLocation, JButton jb) {
 		this.an = an;
 		this.buttonLocation = buttonLocation;
 		this.jb = jb;
+		ClickListener.gameOver = false;
 	}
 
 	public void specialDo() {
@@ -26,6 +29,11 @@ class ClickListener<T, U> implements ActionListener {
 	// removes all the components are reinitializes the Frame
 	@Override
 	public void actionPerformed(ActionEvent e) {
+
+		if (ClickListener.gameOver) {
+			JOptionPane.showMessageDialog(this.an, "Game Over", "InfoBox: ", JOptionPane.INFORMATION_MESSAGE);
+			return;
+		}
 
 		System.out.println(an.getMazeState());
 		List<Transition<T,U>> transitions = an.getMazeState().getTransitions(this.an.getMazeRow(), this.an.getMazeCol(), this.an.getLocationGrid());
@@ -41,6 +49,7 @@ class ClickListener<T, U> implements ActionListener {
 			State<T, U> newState = transition.transit(an.getMazeState());
 
 			if (newState.getUserLocation() == buttonLocation) {
+
 
 				if (transition.getTarget().isGoal()) {
 					an.getContentPane().removeAll();
@@ -59,9 +68,17 @@ class ClickListener<T, U> implements ActionListener {
 				if (ClickListener.previousJb != null) {
 					ClickListener.previousJb.setForeground(Color.BLACK);
 				}
+
+				if (newState.isGameOver()) {
+					JOptionPane.showMessageDialog(this.an, "Game Over", "InfoBox: ", JOptionPane.INFORMATION_MESSAGE);
+					ClickListener.gameOver = true;
+				}
+
 				ClickListener.previousJb = this.jb;
 				return;
 			}
+
+
 		}
 		JOptionPane.showMessageDialog(this.an, "Choose a different location", "InfoBox: ", JOptionPane.INFORMATION_MESSAGE);
 	}

@@ -27,11 +27,15 @@ class HintListener<T, U> implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         Solver<T, U> solver = new Solver<T, U>(this.goalLocation);
-        Stack<State<T, U>> solution = solver.solve(this.startState, an);
+        Stack<State<T, U>> solution = solver.solve(this.an.getMazeState(), an);
 
         int row;
         int col;
         Color prevColor;
+        if (solution.isEmpty()) {
+            JOptionPane.showMessageDialog(this.an, "No solution from this location", "InfoBox: ", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
         solution.pop();
         if (!solution.isEmpty()) {
 
