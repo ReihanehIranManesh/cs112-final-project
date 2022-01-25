@@ -66,6 +66,8 @@ public abstract class Maze<T, U> extends JFrame {
 
     abstract public String getContentText(T content);
 
+    abstract public Color getContentColor(T content);
+
     public State<T, U> getMazeState() {
         return mazeState;
     }
@@ -100,7 +102,7 @@ public abstract class Maze<T, U> extends JFrame {
 
     public void init2() {
 
-        this.initMaze("alice.dat");
+        this.initMaze("bull.dat");
 
         Container contentPane = this.getContentPane();
 
@@ -131,8 +133,14 @@ public abstract class Maze<T, U> extends JFrame {
                 jb1.addActionListener(new ClickListener<T, U>(this, locationGrid[i][j], jb1));
 
                 if (i == startRow && j == startCol) {
-                    jb1.setBackground(Color.RED);
-                    jb1.setForeground(Color.YELLOW);
+                    if (isAlternateColors()) {
+                        jb1.setBackground(Color.RED);
+                        jb1.setForeground(Color.YELLOW);
+                    } else {
+                        jb1.setBackground(Color.LIGHT_GRAY);
+                        jb1.setForeground(getContentColor(content));
+                    }
+
                     contentPane.add(jb1);
                     allButtons[i][j] = jb1;
                     ClickListener.previousJb = jb1;
@@ -151,12 +159,16 @@ public abstract class Maze<T, U> extends JFrame {
                     continue;
 
                 }
-                if (count % 2 == 1)
-                    jb1.setBackground(new Color(154, 205, 50));
-                else
-                    jb1.setBackground(new Color(0, 128, 128));
+                if (isAlternateColors()) {
+                    if (count % 2 == 1)
+                        jb1.setBackground(new Color(154, 205, 50));
+                    else
+                        jb1.setBackground(new Color(0, 128, 128));
+                } else {
+                    jb1.setBackground(Color.white);
+                }
 
-                jb1.setForeground(Color.BLACK);
+                jb1.setForeground(getContentColor(content));
 
                 contentPane.add(jb1);
                 allButtons[i][j] = jb1;
@@ -187,10 +199,11 @@ public abstract class Maze<T, U> extends JFrame {
 
     }
 
+    public abstract boolean isAlternateColors();
 
     public static void main(String[] args) {
 
-        Maze<MazeTwoContent, Integer> thisOne = new MazeTwo();
+        Maze<MazeThreeContent, Character> thisOne = new MazeThree();
 
 
         thisOne.init();

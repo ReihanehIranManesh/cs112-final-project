@@ -31,6 +31,11 @@ class SolutionListener<T, U> implements ActionListener {
         Solver<T, U> solver = new Solver<T, U>(this.goalLocation);
         Stack<State<T, U>> solution = solver.solve(this.an.getMazeState(), an);
 
+		if (solution.isEmpty()) {
+			JOptionPane.showMessageDialog(this.an, "No solution from this location", "InfoBox: ", JOptionPane.INFORMATION_MESSAGE);
+			return;
+		}
+
 		SwingWorker sw1 = new SwingWorker()
 		{
 
@@ -49,6 +54,8 @@ class SolutionListener<T, U> implements ActionListener {
 					Thread.sleep(800);
 
 				}
+
+
 
 				String res = "Finished Execution";
 				return res;

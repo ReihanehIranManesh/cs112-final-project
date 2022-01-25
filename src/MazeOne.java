@@ -30,6 +30,16 @@ public class MazeOne extends Maze<Integer, Void> {
     }
 
     @Override
+    public Color getContentColor(Integer content) {
+        return Color.black;
+    }
+
+    @Override
+    public boolean isAlternateColors() {
+        return true;
+    }
+
+    @Override
     public void initMaze(String filename) {
         super.initMaze(filename);
         this.mazeState = new MazeOneState(locationGrid[startRow][startCol]);

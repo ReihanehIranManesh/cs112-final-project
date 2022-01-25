@@ -44,7 +44,6 @@ public class MazeTwoState extends State<MazeTwoContent, Integer> {
                 throw new RuntimeException("direction not supported" + direction);
             }
             if (row < mazeRow && col < mazeCol && row >= 0 && col >= 0) {
-                // We should set the content
                 MazeTwoTransition transition = new MazeTwoTransition(locationsGrid[row][col]);
                 transitions.add(transition);
             }

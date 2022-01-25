@@ -43,6 +43,16 @@ public class MazeTwo extends Maze<MazeTwoContent, Integer> {
     }
 
     @Override
+    public Color getContentColor(MazeTwoContent content) {
+        return Color.black;
+    }
+
+    @Override
+    public boolean isAlternateColors() {
+        return true;
+    }
+
+    @Override
     public void initMaze(String filename) {
         super.initMaze(filename);
         this.mazeState = new MazeTwoState(locationGrid[startRow][startCol], 1);
