@@ -16,15 +16,7 @@ public class MazeTwoContent {
         this.velocity = velocity;
         this.directions = directions;
     }
-
-//    @Override
-//    public String toString() {
-//        return "MazeTwoContent{" +
-//                "velocity=" + velocity +
-//                ", directions=" + directions +
-//                '}';
-//    }
-
+    
     @Override
     public String toString() {
         String joined = String.join("_", directions);

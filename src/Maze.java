@@ -36,6 +36,7 @@ public abstract class Maze<T, U> extends JFrame {
     public Maze() throws HeadlessException {
 
     }
+
     public void initMaze(String filename) {
         File f = new File(filename);
         Scanner sc = null;
@@ -87,131 +88,60 @@ public abstract class Maze<T, U> extends JFrame {
         contentPane.add(new SwitchPanel());
 
         JButton jb1 = new JButton("One");
-
+        designMenuButton(jb1);
         contentPane.add(jb1);
         jb1.addActionListener(new SwitchMazeOne(this));
 
+        Maze<MazeTwoContent, Integer> secondMaze = new MazeTwo();
         JButton jb2 = new JButton("Two");
+        designMenuButton(jb2);
         contentPane.add(jb2);
+        jb2.addActionListener(new SwitchMazeTwo(secondMaze));
 
         JButton jb3 = new JButton("Three");
-
+        designMenuButton(jb3);
         contentPane.add(jb3);
 
     }
 
-    public void init2() {
-
-        this.initMaze("bull.dat");
-
-        Container contentPane = this.getContentPane();
-
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-
-        contentPane.setLayout(new GridLayout(mazeRow + 1, mazeCol));
-
-        this.setSize(new Dimension(1700, 1700));
-        this.setLocationRelativeTo(null);
-
-        int count = 0;
-
-
-        JButton[][] allButtons = new JButton[mazeRow][mazeCol];
-
-
-        for (int i = 0; i < mazeRow; i++) {
-            for (int j = 0; j < mazeCol; j++) {
-
-                count++;
-
-                T content = locationGrid[i][j].getContent();
-                JButton jb1 = new JButton(getContentText(content));
-                jb1.setOpaque(true);
-                jb1.setFont(new Font("Arial", Font.BOLD, 60));
-                jb1.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
-                jb1.addActionListener(new ClickListener<T, U>(this, locationGrid[i][j], jb1));
-
-                if (i == startRow && j == startCol) {
-                    if (isAlternateColors()) {
-                        jb1.setBackground(Color.RED);
-                        jb1.setForeground(Color.YELLOW);
-                    } else {
-                        jb1.setBackground(Color.LIGHT_GRAY);
-                        jb1.setForeground(getContentColor(content));
-                    }
-
-                    contentPane.add(jb1);
-                    allButtons[i][j] = jb1;
-                    ClickListener.previousJb = jb1;
-                    continue;
-                }
-
-                if (i == goalRow && j == goalCol) {
-                    jb1.setText("GOAL");
-                    jb1.setBackground(Color.RED);
-
-                    jb1.setFont(new Font("Arial", Font.BOLD, 50));
-                    jb1.setForeground(Color.BLACK);
-                    jb1.setBorder(BorderFactory.createLineBorder(Color.BLACK, 4));
-                    contentPane.add(jb1);
-                    allButtons[i][j] = jb1;
-                    continue;
-
-                }
-                if (isAlternateColors()) {
-                    if (count % 2 == 1)
-                        jb1.setBackground(new Color(154, 205, 50));
-                    else
-                        jb1.setBackground(new Color(0, 128, 128));
-                } else {
-                    jb1.setBackground(Color.white);
-                }
-
-                jb1.setForeground(getContentColor(content));
-
-                contentPane.add(jb1);
-                allButtons[i][j] = jb1;
-            }
-        }
-
-        JPanel secondPanel = new JPanel(new FlowLayout());
-
-        JButton solveButton = new JButton("Solve");
-        solveButton.addActionListener(new SolutionListener<T, U>(this.mazeState, locationGrid[goalRow][goalCol], allButtons, this));
-        secondPanel.add(solveButton);
-
-
-        JButton hintButton = new JButton("Hint");
-        hintButton.addActionListener(new HintListener<T, U>(this.mazeState, locationGrid[goalRow][goalCol], allButtons, this));
-        secondPanel.add(hintButton);
-
-
-        JButton jb2 = new JButton("Take Back");
-        secondPanel.add(jb2);
-        this.getContentPane().add(secondPanel);
-        jb2.addActionListener(new NewLook(this));
-
-
-//		JButton changer = new JButton("Add Button");
-//		changer.addActionListener(new SwitchListener(this));
-//		contentPane.add(changer);
-
-    }
+    public abstract void drawMaze();
 
     public abstract boolean isAlternateColors();
 
     public static void main(String[] args) {
 
-        Maze<MazeThreeContent, Character> thisOne = new MazeThree();
-
+        Maze<Integer, Void> thisOne = new MazeOne();
 
         thisOne.init();
-
         thisOne.pack();
         thisOne.setVisible(true);
-        thisOne.setSize(new Dimension(750, 500));
+        thisOne.setSize(new Dimension(950, 600));
         thisOne.setLocationRelativeTo(null);
+    }
+
+    public void designMenuButton(JButton jb) {
+
+        jb.setPreferredSize(new Dimension(90, 40));
+        jb.setFont(new Font("Serif", Font.BOLD, 15));
+    }
+
+    public void designButton(JButton jb) {
+
+        jb.setPreferredSize(new Dimension(100, 50));
+        jb.setBackground(new Color(123, 104, 238));
+        jb.setForeground(Color.WHITE);
+        jb.setFont(new Font("Serif", Font.BOLD, 19));
+    }
+
+    public void setIconButton(JButton jb, String name) {
+
+        String imageName = String.format("Pictures/%s.png", name);
+
+        ImageIcon icon = new ImageIcon(imageName);
+        Image image = icon.getImage();
+        Image newimg = image.getScaledInstance(120, 120, Image.SCALE_SMOOTH);
+        icon = new ImageIcon(newimg);
+        jb.setIcon(icon);
     }
 
 }

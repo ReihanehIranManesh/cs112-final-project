@@ -55,7 +55,7 @@ class SolutionListener<T, U> implements ActionListener {
 
 				}
 
-
+				JOptionPane.showMessageDialog(an, "Reached the GOAL", "InfoBox: ", JOptionPane.INFORMATION_MESSAGE);
 
 				String res = "Finished Execution";
 				return res;

@@ -1,3 +1,4 @@
+import java.awt.*;
 import java.awt.event.ActionListener;
 
 
@@ -8,6 +9,6 @@ class SwitchMazeTwo extends NewLook implements ActionListener {
 	}
 
 	public void specialDo() {
-		an.init2();
+		an.drawMaze();
 	}
 }

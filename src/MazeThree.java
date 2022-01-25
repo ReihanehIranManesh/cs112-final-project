@@ -56,6 +56,11 @@ public class MazeThree extends Maze<MazeThreeContent, Character> {
     }
 
     @Override
+    public void drawMaze() {
+        return;
+    }
+
+    @Override
     public boolean isAlternateColors() {
         return false;
     }

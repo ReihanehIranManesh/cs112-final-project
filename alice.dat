@@ -2,10 +2,10 @@
 0 0
 7 7
 E_S_0 S_0 E_0 E_W_1 E_W_0 SE_0 S_0 S_W_0
-S_E_1 S_E_0 E_0 N_W_0 E_S_0 W_0 S_W_1 W_0
-S_0 S_W_0 S_0 N_W_1 SE_0 S_0 NE_SW_0 W_0
+E_S_1 E_S_0 E_0 N_W_0 E_S_0 W_0 S_W_1 W_0
+S_0 S_W_0 S_0 N_W_0 SE_0 S_0 NE_SW_0 W_0
 E_0 N_S_0 E_S_0 E_S_1 SE_SW_-1 S_W_0 S_0 N_0
 E_0 E_S_0 S_0 E_0 NE_S_0 S_0 NE_SW_0 NW_0
 NE_0 E_0 N_S_0 E_0 NE_-1 SW_0 W_1 N_-1
 S_0 E_W_0 W_0 NW_0 E_W_0 E_W_0 E_W_S_0 N_0
-N_1 NE_1 E_W_0 E_W_0 W_0 NE_0 W_0 0
+N_1 NE_1 E_W_0 E_W_0 W_0 NE_0 W_0 S_0
