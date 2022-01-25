@@ -5,14 +5,14 @@ import java.util.List;
 import javax.swing.*;
 
 
-class ClickListener<T> implements ActionListener {
+class ClickListener<T, U> implements ActionListener {
 
-	Maze<T> an;
+	Maze<T, U> an;
 	Location<T> buttonLocation;
 	JButton jb;
 	static JButton previousJb;
 
-	public ClickListener(Maze<T> an, Location<T> buttonLocation, JButton jb) {
+	public ClickListener(Maze<T, U> an, Location<T> buttonLocation, JButton jb) {
 		this.an = an;
 		this.buttonLocation = buttonLocation;
 		this.jb = jb;
@@ -27,9 +27,10 @@ class ClickListener<T> implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 
-		List<Transition> transitions = an.getMazeState().getTransitions(this.an.getMazeRow(), this.an.getMazeCol(), this.an.getLocationGrid());
+		System.out.println(an.getMazeState());
+		List<Transition<T,U>> transitions = an.getMazeState().getTransitions(this.an.getMazeRow(), this.an.getMazeCol(), this.an.getLocationGrid());
 
-		for (Transition transition : transitions) {
+		for (Transition<T, U> transition : transitions) {
 
 			// Important Note: Doing identity check because there are no duplicate locations anywhere
 
@@ -37,9 +38,10 @@ class ClickListener<T> implements ActionListener {
 				continue;
 			}
 
-			State<T> newState = transition.transit(an.getMazeState());
+			State<T, U> newState = transition.transit(an.getMazeState());
 
 			if (newState.getUserLocation() == buttonLocation) {
+
 				if (transition.getTarget().isGoal()) {
 					an.getContentPane().removeAll();
 					specialDo();
@@ -49,7 +51,7 @@ class ClickListener<T> implements ActionListener {
 					return;
 				}
 
-
+				an.setMazeState(newState);
 				an.getMazeState().setUserLocation(buttonLocation);
 				System.out.println(buttonLocation);
 				jb.setBackground(Color.RED);

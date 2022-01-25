@@ -1,30 +1,45 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class MazeTwoState extends State<MazeTwoContent> {
+public class MazeTwoState extends State<MazeTwoContent, Integer> {
 
-    public int getVelocity() {
-        return velocity;
-    }
-
-    private int velocity;
     public MazeTwoState(Location<MazeTwoContent> userLocation, int velocity) {
         super(userLocation);
-        this.velocity = velocity;
+        this.info = velocity;
     }
 
-    public List<Transition<MazeTwoContent>> getTransitions(int mazeRow, int mazeCol, Location<MazeTwoContent>[][] locationsGrid) {
+    public List<Transition<MazeTwoContent, Integer>> getTransitions(int mazeRow, int mazeCol, Location<MazeTwoContent>[][] locationsGrid) {
 
-        List<Transition<MazeTwoContent>> transitions = new ArrayList<>();
+        List<Transition<MazeTwoContent, Integer>> transitions = new ArrayList<>();
         MazeTwoContent curContent = userLocation.getContent();
         int curVelocity = userLocation.getContent().getVelocity();
         for (String direction : curContent.getDirections()) {
             int row = userLocation.getRow();
             int col = userLocation.getCol();
-            if (direction.equals("S")) {
-                col += curVelocity + this.velocity;
-            } else if (direction.equals("E")) {
-                row += curVelocity + this.velocity;
+            if (direction.equals("E")) {
+                col += curVelocity + this.info;
+            } else if (direction.equals("S")) {
+                row += curVelocity + this.info;
+            } else if (direction.equals("N")) {
+                row = row - (curVelocity + this.info);
+            } else if (direction.equals("W")) {
+                col = col - (curVelocity + this.info);
+
+            } else if (direction.equals("NE")) {
+                row = row - (curVelocity + this.info);
+                col += curVelocity + this.info;
+            } else if (direction.equals("NW")) {
+                row = row - (curVelocity + this.info);
+                col = col - (curVelocity + this.info);
+
+            } else if (direction.equals("SE")) {
+                row += curVelocity + this.info;
+                col += curVelocity + this.info;
+
+            } else if (direction.equals("SW")) {
+                row += curVelocity + this.info;
+                col = col - (curVelocity + this.info);
+
             } else {
                 throw new RuntimeException("direction not supported" + direction);
             }

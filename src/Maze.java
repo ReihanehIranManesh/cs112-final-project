@@ -6,14 +6,14 @@ import java.util.Scanner;
 
 import javax.swing.*;
 
-public abstract class Maze<T> extends JFrame {
+public abstract class Maze<T, U> extends JFrame {
 
     public Location<T>[][] getLocationGrid() {
         return locationGrid;
     }
 
     protected Location<T>[][] locationGrid;
-    protected State mazeState;
+    protected State<T, U> mazeState;
 
     Container contentPane;
 
@@ -66,11 +66,11 @@ public abstract class Maze<T> extends JFrame {
 
     abstract public String getContentText(T content);
 
-    public State getMazeState() {
+    public State<T, U> getMazeState() {
         return mazeState;
     }
 
-    public void setMazeState(State mazeState) {
+    public void setMazeState(State<T, U> mazeState) {
         this.mazeState = mazeState;
     }
 
@@ -128,7 +128,7 @@ public abstract class Maze<T> extends JFrame {
                 jb1.setOpaque(true);
                 jb1.setFont(new Font("Arial", Font.BOLD, 60));
                 jb1.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
-                jb1.addActionListener(new ClickListener(this, locationGrid[i][j], jb1));
+                jb1.addActionListener(new ClickListener<T, U>(this, locationGrid[i][j], jb1));
 
                 if (i == startRow && j == startCol) {
                     jb1.setBackground(Color.RED);
@@ -166,12 +166,12 @@ public abstract class Maze<T> extends JFrame {
         JPanel secondPanel = new JPanel(new FlowLayout());
 
         JButton solveButton = new JButton("Solve");
-        solveButton.addActionListener(new SolutionListener<T>(this.mazeState, locationGrid[goalRow][goalCol], allButtons, this));
+        solveButton.addActionListener(new SolutionListener<T, U>(this.mazeState, locationGrid[goalRow][goalCol], allButtons, this));
         secondPanel.add(solveButton);
 
 
         JButton hintButton = new JButton("Hint");
-        hintButton.addActionListener(new HintListener<T>(this.mazeState, locationGrid[goalRow][goalCol], allButtons, this));
+        hintButton.addActionListener(new HintListener<T, U>(this.mazeState, locationGrid[goalRow][goalCol], allButtons, this));
         secondPanel.add(hintButton);
 
 
@@ -190,7 +190,7 @@ public abstract class Maze<T> extends JFrame {
 
     public static void main(String[] args) {
 
-        Maze<MazeTwoContent> thisOne = new MazeTwo();
+        Maze<MazeTwoContent, Integer> thisOne = new MazeTwo();
 
 
         thisOne.init();

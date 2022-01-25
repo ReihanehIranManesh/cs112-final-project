@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class MazeOneState extends State<Integer> {
+public class MazeOneState extends State<Integer, Void> {
 
 
     public MazeOneState(Location<Integer> userLocation) {
@@ -9,8 +9,8 @@ public class MazeOneState extends State<Integer> {
 
     }
 
-    public List<Transition<Integer>> getTransitions(int mazeRow, int mazeCol, Location<Integer>[][] locationsGrid) {
-        List<Transition<Integer>> transitions = new ArrayList<>();
+    public List<Transition<Integer, Void>> getTransitions(int mazeRow, int mazeCol, Location<Integer>[][] locationsGrid) {
+        List<Transition<Integer, Void>> transitions = new ArrayList<>();
         int rowRight = this.userLocation.getRow();
         int colRight = this.userLocation.getCol() + this.userLocation.getContent();
         if (colRight < mazeCol) {

@@ -2,20 +2,25 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public abstract class State<T> {
+public abstract class State<T, U> {
 
     protected Location<T> userLocation;
-    protected Information info;
+
+    public U getInfo() {
+        return info;
+    }
+
+    protected U info;
 
 
-    protected State<T> previousState;
+    protected State<T, U> previousState;
 
     public State(Location<T> userLocation) {
         this.userLocation = userLocation;
         this.previousState = null;
     }
 
-    public abstract List<Transition<T>> getTransitions(int mazeRow, int mazeCol, Location<T>[][] locationsGrid);
+    public abstract List<Transition<T, U>> getTransitions(int mazeRow, int mazeCol, Location<T>[][] locationsGrid);
 
 
     public Location<T> getUserLocation() {
@@ -27,11 +32,11 @@ public abstract class State<T> {
         this.userLocation = userLocation;
     }
 
-    public void setPreviousState(State<T> previousState) {
+    public void setPreviousState(State<T, U> previousState) {
         this.previousState = previousState;
     }
 
-    public State<T> getPreviousState() {
+    public State<T, U> getPreviousState() {
         return previousState;
     }
 
@@ -39,7 +44,7 @@ public abstract class State<T> {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        State<T> state = (State<T>) o;
+        State<T, U> state = (State<T, U>) o;
         return Objects.equals(userLocation, state.userLocation) && Objects.equals(info, state.info);
     }
 

@@ -7,15 +7,15 @@ import java.util.Stack;
 import java.util.concurrent.ExecutionException;
 
 
-class SolutionListener<T> implements ActionListener {
+class SolutionListener<T, U> implements ActionListener {
 
 
-	Maze<T> an;
-    private final State<T> startState;
+	Maze<T, U> an;
+    private final State<T, U> startState;
     private final Location<T> goalLocation;
     private final JButton[][] allButtons;
 
-    public SolutionListener(State<T> startState, Location<T> goalLocation, JButton[][] allButtons, Maze<T> an) {
+    public SolutionListener(State<T, U> startState, Location<T> goalLocation, JButton[][] allButtons, Maze<T, U> an) {
         this.startState = startState;
         this.goalLocation = goalLocation;
         this.allButtons = allButtons;
@@ -28,8 +28,8 @@ class SolutionListener<T> implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        Solver<T> solver = new Solver<T>(this.goalLocation);
-        Stack<State<T>> solution = solver.solve(this.startState, an);
+        Solver<T, U> solver = new Solver<T, U>(this.goalLocation);
+        Stack<State<T, U>> solution = solver.solve(this.startState, an);
 
 		SwingWorker sw1 = new SwingWorker()
 		{
@@ -40,12 +40,13 @@ class SolutionListener<T> implements ActionListener {
 
 				while (!solution.isEmpty()) {
 
-					State<T> temp = solution.pop();
+					State<T, U> temp = solution.pop();
 					int row = temp.getUserLocation().getRow();
 					int col = temp.getUserLocation().getCol();
+					allButtons[row][col].setBackground(Color.CYAN);
+					Thread.sleep(500);
 					allButtons[row][col].setBackground(Color.PINK);
-
-					Thread.sleep(1000);
+					Thread.sleep(800);
 
 				}
 

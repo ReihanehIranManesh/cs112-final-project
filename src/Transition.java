@@ -1,4 +1,4 @@
-public abstract class Transition<T> {
+public abstract class Transition<T, U> {
 
 
     protected Location<T> target;
@@ -11,35 +11,9 @@ public abstract class Transition<T> {
         return target;
     }
 
-//
-//    public String toString() {
-//        return "" + this.getRow() + "," + this.getCol() + " " + this.getContent();
-//    }
+    public abstract boolean canTransit(State<T, U> curr);
 
-    public boolean canTransit(State<T> curr) {
-
-//        if (getCol() < Maze.getMazeCol() && getRow() < Maze.getMazeRow() && getCol() >= 0 && getRow() >= 0) {
-//
-//            int LocationContent = curr.getContent();
-//            int LocationRow = curr.getRow();
-//            int LocationCol = curr.getCol();
-//            State l;
-//
-//            if ((LocationCol + LocationContent == getCol() || LocationCol - LocationContent == getCol()) && LocationRow == getRow()){
-//                return new State(getRow(), getCol(), getContent());
-//            }
-//
-//
-//            else if ((LocationRow + LocationContent == getRow() || LocationRow - LocationContent == getRow()) && LocationCol == getCol()){
-//                return new State(getRow(), getCol(), getContent());
-//            }
-//        }
-//        return null;
-
-        return true;
-    }
-
-    public abstract State<T> transit (State<T> curr);
+    public abstract State<T, U> transit (State<T, U> curr);
 
     @Override
     public String toString() {

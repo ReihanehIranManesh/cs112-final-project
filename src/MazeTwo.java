@@ -3,7 +3,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 
-public class MazeTwo extends Maze<MazeTwoContent> {
+public class MazeTwo extends Maze<MazeTwoContent, Integer> {
 
 
     public MazeTwo() throws HeadlessException {
