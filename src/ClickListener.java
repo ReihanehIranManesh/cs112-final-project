@@ -68,12 +68,17 @@ class ClickListener<T, U> implements ActionListener {
                 an.getMazeState().setUserLocation(buttonLocation);
                 System.out.println(buttonLocation);
                 if (an.isAlternateColors()) {
+                    if (ClickListener.previousJb != null) {
+                        ClickListener.previousJb.setForeground(Color.BLACK);
+                    }
                     jb.setBackground(Color.RED);
                     jb.setForeground(Color.YELLOW);
                 }
-
-                if (ClickListener.previousJb != null) {
-                    ClickListener.previousJb.setForeground(Color.BLACK);
+                else{
+                    jb.setBackground(Color.YELLOW);
+                    if (ClickListener.previousJb != null) {
+                        ClickListener.previousJb.setBackground(Color.LIGHT_GRAY);
+                    }
                 }
 
                 if (newState.isGameOver()) {
