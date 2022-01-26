@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 import javax.swing.*;
 
-public abstract class Maze<T, U> extends JFrame {
+public abstract class Maze<T, U> extends LandingPage {
 
     public Location<T>[][] getLocationGrid() {
         return locationGrid;
@@ -32,9 +32,10 @@ public abstract class Maze<T, U> extends JFrame {
     protected int goalRow;
     protected int goalCol;
     protected List<T> contents;
+    protected LandingPage landingPage;
 
-    public Maze() throws HeadlessException {
-
+    public Maze(LandingPage landingPage) throws HeadlessException {
+        this.landingPage = landingPage;
     }
 
     public void initMaze(String filename) {
@@ -77,47 +78,9 @@ public abstract class Maze<T, U> extends JFrame {
         this.mazeState = mazeState;
     }
 
-    public void init() {
-
-        contentPane = this.getContentPane();
-
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        contentPane.setLayout(new FlowLayout());
-
-        contentPane.add(new SwitchPanel());
-
-        JButton jb1 = new JButton("One");
-        designMenuButton(jb1);
-        contentPane.add(jb1);
-        jb1.addActionListener(new SwitchMazeOne(this));
-
-        Maze<MazeTwoContent, Integer> secondMaze = new MazeTwo();
-        JButton jb2 = new JButton("Two");
-        designMenuButton(jb2);
-        contentPane.add(jb2);
-        jb2.addActionListener(new SwitchMazeTwo(secondMaze));
-
-        JButton jb3 = new JButton("Three");
-        designMenuButton(jb3);
-        contentPane.add(jb3);
-
-    }
-
-    public abstract void drawMaze();
 
     public abstract boolean isAlternateColors();
 
-    public static void main(String[] args) {
-
-        Maze<Integer, Void> thisOne = new MazeOne();
-
-        thisOne.init();
-        thisOne.pack();
-        thisOne.setVisible(true);
-        thisOne.setSize(new Dimension(950, 600));
-        thisOne.setLocationRelativeTo(null);
-    }
 
     public void designMenuButton(JButton jb) {
 

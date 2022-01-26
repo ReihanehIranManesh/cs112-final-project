@@ -7,8 +7,8 @@ import java.util.Scanner;
 public class MazeTwo extends Maze<MazeTwoContent, Integer> {
 
 
-    public MazeTwo() throws HeadlessException {
-        super();
+    public MazeTwo(LandingPage landingPage) throws HeadlessException {
+        super(landingPage);
     }
 
     @Override
@@ -49,7 +49,7 @@ public class MazeTwo extends Maze<MazeTwoContent, Integer> {
     }
 
     @Override
-    public void drawMaze() {
+    public void init() {
         this.initMaze("alice.dat");
         this.pack();
         this.setVisible(true);
@@ -142,9 +142,7 @@ public class MazeTwo extends Maze<MazeTwoContent, Integer> {
         secondPanel.add(hintButton);
 
         JButton jb2 = new JButton("Take Back");
-        jb2.addActionListener(new
-
-                NewLook(this));
+        jb2.addActionListener(new NewLook(landingPage, this));
 
         designButton(jb2);
         jb2.setPreferredSize(new
